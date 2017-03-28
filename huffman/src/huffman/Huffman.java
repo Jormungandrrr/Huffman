@@ -20,14 +20,18 @@ import java.util.Random;
  * @author Jorrit
  */
 public class Huffman {
-
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Huffman hm = new Huffman();
-        hm.getFrequence(hm.generateRandomWords(20));
-        
+        String input = "Dit is een super coole awesome test";
+        Map<String, Integer> frequenceMap = hm.getFrequence(input);
+        PriorityQueue<HuffNode> sortedFrequence = hm.sortFrequence(frequenceMap);
+        hm.createTree(sortedFrequence);
+        HashMap<Character, String> codedMap =  hm.createCodes(sortedFrequence.peek(), "");
+        hm.decode(hm.encode(codedMap, input), sortedFrequence.peek());
+        System.out.println("Done.");
     }
     
     public Map<String, Integer> getFrequence(String input){
@@ -44,7 +48,7 @@ public class Huffman {
         return words;
     }
     
-        public static PriorityQueue<HuffNode> sortFrequence(Map<String, Integer> hashMap) {
+        public PriorityQueue<HuffNode> sortFrequence(Map<String, Integer> hashMap) {
         List<HuffNode> HuffNodes = new LinkedList<>();
         PriorityQueue<HuffNode> pq;
         Iterator it = hashMap.entrySet().iterator();
@@ -63,19 +67,45 @@ public class Huffman {
         }
         return pq;
     }
-    
-    
-     public String generateRandomWords(int numberOfWords) {
-        String[] randomStrings = new String[numberOfWords];
-        Random random = new Random();
-        for (int i = 0; i < numberOfWords; i++) {
-            char[] word = new char[random.nextInt(8) + 3]; // words of length 3 through 10. (1 and 2 letter words are boring.)
-            for (int j = 0; j < word.length; j++) {
-                word[j] = (char) ('a' + random.nextInt(26));
-            }
-            randomStrings[i] = new String(word);
+        
+     public HuffNode createTree(PriorityQueue<HuffNode> q) {
+        HuffNode n1 = q.poll();
+        HuffNode n2 = q.poll();
+
+        int frequency = n1.getFrequency() + n2.getFrequency();
+        q.add(new HuffNode(frequency, n1, n2));
+
+        if (q.size() > 1) {
+            createTree(q);
         }
-        return Arrays.toString(randomStrings);
+
+        return q.peek();
+    }
+     
+    public HashMap<Character, String> createCodes(HuffNode node, String code) {
+        HashMap<Character, String> codedList = new HashMap<>();
+        if (node != null)
+        {
+            createCodes(node.getLeft(), code + "0");
+            createCodes(node.getRight(), code + "1");
+            if (node.getLeft()== null && node.getRight()== null)
+                codedList.put(node.getCharacter(), code);
+        }
+        return codedList;
     }
     
+    public String encode(HashMap<Character, String> codeWithString, String message)
+    {
+        StringBuilder sb = new StringBuilder();
+        for (Character c : message.toCharArray())
+        {
+            sb.append(codeWithString.get(c));
+        }
+        return sb.toString();
+    }
+
+    public String decode(String message, HuffNode rootNode)
+    {
+        return rootNode.decode(message);
+    }
 }
