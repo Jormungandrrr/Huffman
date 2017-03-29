@@ -5,7 +5,6 @@
  */
 package huffman;
 
-import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -13,19 +12,20 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Random;
 
 /**
  *
  * @author Jorrit
  */
 public class Huffman {
+    
+    HashMap<Character, String> codedList = new HashMap<>();
     /**
      * @param args the command line arguments
      */
     public static void main(String[] args) {
         Huffman hm = new Huffman();
-        String input = "Dit is een super coole awesome test";
+        String input = "dit is een super coole test";
         Map<String, Integer> frequenceMap = hm.getFrequence(input);
         PriorityQueue<HuffNode> sortedFrequence = hm.sortFrequence(frequenceMap);
         hm.createTree(sortedFrequence);
@@ -83,7 +83,6 @@ public class Huffman {
     }
      
     public HashMap<Character, String> createCodes(HuffNode node, String code) {
-        HashMap<Character, String> codedList = new HashMap<>();
         if (node != null)
         {
             createCodes(node.getLeft(), code + "0");
