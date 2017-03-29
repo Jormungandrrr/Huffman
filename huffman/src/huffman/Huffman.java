@@ -27,6 +27,7 @@ public class Huffman {
         Huffman hm = new Huffman();
         String input = "dit is een super coole test";
         Map<String, Integer> frequenceMap = hm.getFrequence(input);
+        System.out.println(frequenceMap.toString());
         PriorityQueue<HuffNode> sortedFrequence = hm.sortFrequence(frequenceMap);
         hm.createTree(sortedFrequence);
         HashMap<Character, String> codedMap =  hm.createCodes(sortedFrequence.peek(), "");
@@ -105,6 +106,22 @@ public class Huffman {
 
     public String decode(String message, HuffNode rootNode)
     {
-        return rootNode.decode(message);
+        StringBuilder sb = new StringBuilder();
+        HuffNode node = rootNode;
+        for (int i = 0; i < message.length(); i++)
+        {
+            if (message.charAt(i) == '1'){
+                node = node.getRight();
+            }
+            else {
+                node = node.getLeft();
+            }
+            if (node.getLeft() == null && node.getRight() == null) {
+                sb.append(node.getCharacter());
+                node = rootNode;
+            }
+        }
+        System.out.println("Message was: " + sb);
+        return sb.toString();
     }
 }

@@ -28,26 +28,6 @@ public class HuffNode {
         this.left = left;
         this.right = right;
     }
-    
-     public String decode(String message){
-        StringBuilder sb = new StringBuilder();
-        HuffNode knoop = this;
-        for (int i = 0; i < message.length(); i++)
-        {
-            if (message.charAt(i) == '1'){
-                knoop = knoop.getRight();
-            }
-            else {
-                knoop = knoop.getLeft();
-            }
-            if (knoop.getLeft() == null && knoop.getRight() == null) {
-                sb.append(knoop.getCharacter());
-                knoop = this;
-            }
-        }
-        System.out.println("Message was: " + sb);
-        return sb.toString();
-    }
 
     public char getCharacter() {
         return character;
