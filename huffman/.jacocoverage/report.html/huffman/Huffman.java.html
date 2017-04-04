@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../.resources/report.css" type="text/css"/><link rel="shortcut icon" href="../.resources/report.gif" type="image/gif"/><title>Huffman.java</title><link rel="stylesheet" href="../.resources/prettify.css" type="text/css"/><script type="text/javascript" src="../.resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../.sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">JaCoCoverage analysis of project &quot;huffman&quot; (powered by JaCoCo from EclEmma)</a> &gt; <a href="index.source.html" class="el_package">huffman</a> &gt; <span class="el_source">Huffman.java</span></div><h1>Huffman.java</h1><pre class="source lang-java linenums">/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package huffman;
+
+import Data.Export;
+import Data.Import;
+import java.io.IOException;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.PriorityQueue;
+
+/**
+ *
+ * @author Jorrit
+ */
+<span class="fc" id="L23">public class Huffman {</span>
+    
+<span class="fc" id="L25">    Export expo = new Export();</span>
+<span class="fc" id="L26">    Import impo = new Import();</span>
+<span class="fc" id="L27">    HashMap&lt;Character, String&gt; codedList = new HashMap&lt;&gt;();</span>
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String[] args) throws IOException {
+<span class="fc" id="L32">        Huffman hm = new Huffman();</span>
+<span class="fc" id="L33">        String input = &quot;dit is een super coole test&quot;;</span>
+<span class="fc" id="L34">        Map&lt;String, Integer&gt; frequenceMap = hm.getFrequence(input);</span>
+<span class="fc" id="L35">        PriorityQueue&lt;HuffNode&gt; sortedFrequence = hm.sortFrequence(frequenceMap);</span>
+<span class="fc" id="L36">        hm.createTree(sortedFrequence);</span>
+<span class="fc" id="L37">        HashMap&lt;Character, String&gt; codedMap =  hm.createCodes(sortedFrequence.peek(), &quot;&quot;);</span>
+<span class="fc" id="L38">        hm.expo.export(hm.encode(codedMap, input), sortedFrequence.peek());</span>
+        //hm.decode(hm.encode(codedMap, input), sortedFrequence.peek());
+<span class="fc" id="L40">        System.out.println(&quot;Done.&quot;);</span>
+<span class="fc" id="L41">    }</span>
+    
+    public HashMap&lt;String, Integer&gt; getFrequence(String input){
+<span class="fc" id="L44">        HashMap&lt;String, Integer&gt; words = new HashMap();</span>
+<span class="fc bfc" id="L45" title="All 2 branches covered.">        for ( String s : input.split(&quot;&quot;)) {</span>
+<span class="fc" id="L46">            Integer count = words.get(s);</span>
+<span class="fc bfc" id="L47" title="All 2 branches covered.">            if (count == null) {</span>
+<span class="fc" id="L48">                words.put(s,1);</span>
+            }
+            else {
+<span class="fc" id="L51">                words.put(s,count + 1);</span>
+            }
+        }
+<span class="fc" id="L54">        return words;</span>
+    }
+    
+        public PriorityQueue&lt;HuffNode&gt; sortFrequence(Map&lt;String, Integer&gt; hashMap) {
+<span class="fc" id="L58">        List&lt;HuffNode&gt; HuffNodes = new LinkedList&lt;&gt;();</span>
+        PriorityQueue&lt;HuffNode&gt; pq;
+<span class="fc" id="L60">        Iterator it = hashMap.entrySet().iterator();</span>
+<span class="fc bfc" id="L61" title="All 2 branches covered.">        while (it.hasNext()) {</span>
+<span class="fc" id="L62">            Map.Entry pair = (Map.Entry) it.next();</span>
+<span class="fc" id="L63">            String key = (String) pair.getKey();</span>
+<span class="fc" id="L64">            int value = (int) pair.getValue();</span>
+<span class="fc" id="L65">            HuffNodes.add(new HuffNode(key.charAt(0), value));</span>
+<span class="fc" id="L66">        }</span>
+
+<span class="fc" id="L68">        Comparator&lt;HuffNode&gt; comparator = new HuffNodeCompare();</span>
+<span class="fc" id="L69">        pq = new PriorityQueue&lt;&gt;(HuffNodes.size(), comparator);</span>
+
+<span class="fc bfc" id="L71" title="All 2 branches covered.">        for (HuffNode huff : HuffNodes) {</span>
+<span class="fc" id="L72">            pq.add(huff);</span>
+<span class="fc" id="L73">        }</span>
+<span class="fc" id="L74">        return pq;</span>
+    }
+        
+     public HuffNode createTree(PriorityQueue&lt;HuffNode&gt; q) {
+<span class="fc" id="L78">        HuffNode n1 = q.poll();</span>
+<span class="fc" id="L79">        HuffNode n2 = q.poll();</span>
+
+<span class="fc" id="L81">        int frequency = n1.getFrequency() + n2.getFrequency();</span>
+<span class="fc" id="L82">        q.add(new HuffNode(frequency, n1, n2));</span>
+
+<span class="fc bfc" id="L84" title="All 2 branches covered.">        if (q.size() &gt; 1) {</span>
+<span class="fc" id="L85">            createTree(q);</span>
+        }
+
+<span class="fc" id="L88">        return q.peek();</span>
+    }
+     
+    public HashMap&lt;Character, String&gt; createCodes(HuffNode node, String code) {
+<span class="fc bfc" id="L92" title="All 2 branches covered.">        if (node != null)</span>
+        {
+<span class="fc" id="L94">            createCodes(node.getLeft(), code + &quot;0&quot;);</span>
+<span class="fc" id="L95">            createCodes(node.getRight(), code + &quot;1&quot;);</span>
+<span class="pc bpc" id="L96" title="1 of 4 branches missed.">            if (node.getLeft()== null &amp;&amp; node.getRight()== null)</span>
+<span class="fc" id="L97">                codedList.put(node.getCharacter(), code);</span>
+        }
+<span class="fc" id="L99">        return codedList;</span>
+    }
+    
+    public String encode(HashMap&lt;Character, String&gt; codeWithString, String message)
+    {
+<span class="fc" id="L104">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">        for (Character c : message.toCharArray())</span>
+        {
+<span class="fc" id="L107">            sb.append(codeWithString.get(c));</span>
+        }
+<span class="fc" id="L109">        System.out.println(sb.toString());</span>
+<span class="fc" id="L110">        return sb.toString();</span>
+    }
+
+    public String decode(String code, HuffNode rootNode)
+    {
+<span class="fc" id="L115">        StringBuilder sb = new StringBuilder();</span>
+<span class="fc" id="L116">        HuffNode node = rootNode;</span>
+<span class="fc bfc" id="L117" title="All 2 branches covered.">        for (int i = 0; i &lt; code.length(); i++)</span>
+        {
+<span class="fc bfc" id="L119" title="All 2 branches covered.">            if (code.charAt(i) == '1'){</span>
+<span class="fc" id="L120">                node = node.getRight();</span>
+            }
+            else {
+<span class="fc" id="L123">                node = node.getLeft();</span>
+            }
+<span class="pc bpc" id="L125" title="1 of 4 branches missed.">            if (node.getLeft() == null &amp;&amp; node.getRight() == null) {</span>
+<span class="fc" id="L126">                sb.append(node.getCharacter());</span>
+<span class="fc" id="L127">                node = rootNode;</span>
+            }
+        }
+<span class="fc" id="L130">        return sb.toString();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

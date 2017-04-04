@@ -5,6 +5,9 @@
  */
 package huffman;
 
+import Data.Export;
+import Data.Import;
+import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -19,24 +22,26 @@ import java.util.PriorityQueue;
  */
 public class Huffman {
     
+    Export expo = new Export();
+    Import impo = new Import();
     HashMap<Character, String> codedList = new HashMap<>();
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Huffman hm = new Huffman();
         String input = "dit is een super coole test";
         Map<String, Integer> frequenceMap = hm.getFrequence(input);
-        System.out.println(frequenceMap.toString());
         PriorityQueue<HuffNode> sortedFrequence = hm.sortFrequence(frequenceMap);
         hm.createTree(sortedFrequence);
         HashMap<Character, String> codedMap =  hm.createCodes(sortedFrequence.peek(), "");
-        hm.decode(hm.encode(codedMap, input), sortedFrequence.peek());
+        hm.expo.export(hm.encode(codedMap, input), sortedFrequence.peek());
+        //hm.decode(hm.encode(codedMap, input), sortedFrequence.peek());
         System.out.println("Done.");
     }
     
-    public Map<String, Integer> getFrequence(String input){
-        Map<String, Integer> words = new HashMap();
+    public HashMap<String, Integer> getFrequence(String input){
+        HashMap<String, Integer> words = new HashMap();
         for ( String s : input.split("")) {
             Integer count = words.get(s);
             if (count == null) {
@@ -101,16 +106,17 @@ public class Huffman {
         {
             sb.append(codeWithString.get(c));
         }
+        System.out.println(sb.toString());
         return sb.toString();
     }
 
-    public String decode(String message, HuffNode rootNode)
+    public String decode(String code, HuffNode rootNode)
     {
         StringBuilder sb = new StringBuilder();
         HuffNode node = rootNode;
-        for (int i = 0; i < message.length(); i++)
+        for (int i = 0; i < code.length(); i++)
         {
-            if (message.charAt(i) == '1'){
+            if (code.charAt(i) == '1'){
                 node = node.getRight();
             }
             else {
@@ -121,7 +127,6 @@ public class Huffman {
                 node = rootNode;
             }
         }
-        System.out.println("Message was: " + sb);
         return sb.toString();
     }
 }

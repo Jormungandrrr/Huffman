@@ -5,11 +5,13 @@
  */
 package huffman;
 
+import java.io.Serializable;
+
 /**
  *
  * @author Jorrit
  */
-public class HuffNode {
+public class HuffNode implements Serializable {
     private char character;
     private int frequency;
     private HuffNode left;
