@@ -171,8 +171,7 @@ public class HuffmanTest {
      */
     @Test
     public void testStart() throws Exception {
-        System.out.println(generateRandomWords(1000));
-        String input = "test";
+        String input = generateRandomWords(100000);
         Huffman instance = new Huffman();
         instance.Start(input);
     }
