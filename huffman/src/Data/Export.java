@@ -26,13 +26,11 @@ public class Export {
         PrintWriter out = new PrintWriter(fos);
         out.println(code);
         out.flush();
-        System.out.println("code exported");
         
         fos = new FileOutputStream("huffnode.ser");
         oos = new ObjectOutputStream(fos);
         oos.writeObject(rootNode);
         oos.flush();
-        System.out.println("node exported");
     }
     
 }

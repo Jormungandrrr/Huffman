@@ -5,15 +5,23 @@
  */
 package Data;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  *
  * @author Jorrit
  */
-<span class="fc" id="L12">public class Import {</span>
+<span class="fc" id="L17">public class Import {</span>
+<span class="fc" id="L18">    String code = &quot;&quot;;</span>
     
-    public void Import()
-    {
-        
-<span class="nc" id="L17">    }</span>
+    public String getCode() throws FileNotFoundException, IOException{
+<span class="fc" id="L21">        FileReader fr = new FileReader(&quot;code.txt&quot;);</span>
+<span class="fc" id="L22">        BufferedReader br = new BufferedReader(fr);</span>
+<span class="fc" id="L23">        code = br.readLine();</span>
+<span class="fc" id="L24">        return code;</span>
+    }
 }
 </pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>

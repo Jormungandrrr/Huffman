@@ -52,9 +52,6 @@ public class HuffmanTest {
     public void testMain() throws IOException {
         System.out.println("main");
         String[] args = null;
-        Huffman.main(args);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
     }
 
     /**
@@ -162,7 +159,22 @@ public class HuffmanTest {
             }
             randomStrings[i] = new String(word);
         }
-        return Arrays.toString(randomStrings);
+        String result = "";
+         for (String s : randomStrings) {
+             result += " " + s;
+         }
+        return result;
+    }
+
+    /**
+     * Test of Start method, of class Huffman.
+     */
+    @Test
+    public void testStart() throws Exception {
+        System.out.println(generateRandomWords(1000));
+        String input = "test";
+        Huffman instance = new Huffman();
+        instance.Start(input);
     }
     
 }

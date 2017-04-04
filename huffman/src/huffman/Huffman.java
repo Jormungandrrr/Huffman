@@ -7,6 +7,7 @@ package huffman;
 
 import Data.Export;
 import Data.Import;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -28,15 +29,21 @@ public class Huffman {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, FileNotFoundException, ClassNotFoundException {
         Huffman hm = new Huffman();
         String input = "dit is een super coole test";
-        Map<String, Integer> frequenceMap = hm.getFrequence(input);
-        PriorityQueue<HuffNode> sortedFrequence = hm.sortFrequence(frequenceMap);
-        hm.createTree(sortedFrequence);
-        HashMap<Character, String> codedMap =  hm.createCodes(sortedFrequence.peek(), "");
-        hm.expo.export(hm.encode(codedMap, input), sortedFrequence.peek());
-        //hm.decode(hm.encode(codedMap, input), sortedFrequence.peek());
+        hm.Start(input);
+    }
+    
+    public void Start(String input) throws IOException, FileNotFoundException, ClassNotFoundException
+    {
+       
+        Map<String, Integer> frequenceMap = this.getFrequence(input);
+        PriorityQueue<HuffNode> sortedFrequence = this.sortFrequence(frequenceMap);
+        this.createTree(sortedFrequence);
+        HashMap<Character, String> codedMap =  this.createCodes(sortedFrequence.peek(), "");
+        this.expo.export(this.encode(codedMap, input), sortedFrequence.peek());
+        this.decode(this.impo.getCode(), this.impo.getRootNode());
         System.out.println("Done.");
     }
     
@@ -127,6 +134,7 @@ public class Huffman {
                 node = rootNode;
             }
         }
+        System.out.println("message was: " + sb.toString());
         return sb.toString();
     }
 }
