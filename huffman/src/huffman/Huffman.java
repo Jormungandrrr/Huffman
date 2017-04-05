@@ -113,7 +113,7 @@ public class Huffman {
         {
             sb.append(charWithCode.get(c));
         }
-        System.out.println(sb.toString());
+        //System.out.println(sb.toString());
         return sb.toString();
     }
 
@@ -134,7 +134,7 @@ public class Huffman {
                 node = rootNode;
             }
         }
-        System.out.println("message was: " + sb.toString());
+        //System.out.println("message was: " + sb.toString());
         return sb.toString();
     }
 }
