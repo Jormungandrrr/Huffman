@@ -26,17 +26,15 @@ public class Export {
         BitSet set = new BitSet();
         for (int i = 0; i < code.length(); i++) {
             Character c = code.charAt(i);
-            boolean value = false;
-            switch (c) {
-                case '1':
-                    value = true;
-                    break;
-                case '0':
-                    value = false;
-                    break;
+            
+            if (Integer.valueOf(c.toString()).equals(1)) {
+                 set.set(i, true);
             }
-            set.set(i, value);
+            else if (Integer.valueOf(c.toString()).equals(0)) {
+                 set.set(i, false);
+            }
         }
+        
         
         fos = new FileOutputStream("code.bin");
         oos = new ObjectOutputStream(fos);

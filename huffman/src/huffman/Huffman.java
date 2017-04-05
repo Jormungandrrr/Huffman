@@ -47,6 +47,9 @@ public class Huffman {
         System.out.println("Done.");
     }
     
+      /** 
+      * haalt de frequentie op van elk karakter en stopt deze in een hashmap
+      */
     public HashMap<String, Integer> getFrequence(String input){
         HashMap<String, Integer> words = new HashMap();
         for ( String s : input.split("")) {
@@ -60,7 +63,11 @@ public class Huffman {
         }
         return words;
     }
-    
+      /** 
+      * sorteerd de frequentie met het aantal keer dat het karakter voorkomt.
+      * hiervoor wordt een comparer gebruikt.
+      * dit returnt in een que
+      */
         public PriorityQueue<HuffNode> sortFrequence(Map<String, Integer> hashMap) {
         List<HuffNode> HuffNodes = new LinkedList<>();
         PriorityQueue<HuffNode> pq;
@@ -80,7 +87,13 @@ public class Huffman {
         }
         return pq;
     }
-        
+     /** 
+      * maakt de boom aan
+      * q.poll is geen oostbloker 
+      * maar pakt het hoofd van de que en haalt hem er af
+      * maakt gebruik van recursie
+      * 
+      */
      public HuffNode createTree(PriorityQueue<HuffNode> q) {
         HuffNode n1 = q.poll();
         HuffNode n2 = q.poll();
@@ -94,7 +107,9 @@ public class Huffman {
 
         return q.peek();
     }
-     
+      /** 
+      * deze methode maakt een map met de code voor elk karakter
+      */
     public HashMap<Character, String> createCodes(HuffNode node, String code) {
         if (node != null)
         {
@@ -106,6 +121,9 @@ public class Huffman {
         return codedList;
     }
     
+      /** 
+      * deze methode genereerd de hele code die doorgestuurd gaat worden.
+      */
     public String encode(HashMap<Character, String> charWithCode, String message)
     {
         StringBuilder sb = new StringBuilder();
@@ -117,6 +135,9 @@ public class Huffman {
         return sb.toString();
     }
 
+     /** 
+      * deze methode decodeerd de message en heeft daarvoor de gegenereerde code en de hoofd node nodig
+      */
     public String decode(String code, HuffNode rootNode)
     {
         StringBuilder sb = new StringBuilder();
