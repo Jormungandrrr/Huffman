@@ -10,7 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
-import java.io.PrintWriter;
+import java.util.BitSet;
 
 /**
  *
@@ -22,10 +22,26 @@ public class Export {
     private ObjectOutputStream oos;
     
     public void export(String code, HuffNode rootNode) throws FileNotFoundException, IOException {
-        fos = new FileOutputStream("code.txt");
-        PrintWriter out = new PrintWriter(fos);
-        out.println(code);
-        out.flush();
+        
+        BitSet set = new BitSet();
+        for (int i = 0; i < code.length(); i++) {
+            Character c = code.charAt(i);
+            boolean value = false;
+            switch (c) {
+                case '1':
+                    value = true;
+                    break;
+                case '0':
+                    value = false;
+                    break;
+            }
+            set.set(i, value);
+        }
+        
+        fos = new FileOutputStream("code.bin");
+        oos = new ObjectOutputStream(fos);
+        oos.writeObject(set);
+        oos.flush();
         
         fos = new FileOutputStream("huffnode.ser");
         oos = new ObjectOutputStream(fos);

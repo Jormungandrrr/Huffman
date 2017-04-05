@@ -5,6 +5,8 @@
  */
 package huffman;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -171,9 +173,22 @@ public class HuffmanTest {
      */
     @Test
     public void testStart() throws Exception {
-        String input = generateRandomWords(100000);
+        String input = getAlice();
         Huffman instance = new Huffman();
         instance.Start(input);
+    }
+    
+     public String getAlice() throws IOException {
+        String alice = "";
+        String currentLine;
+            System.out.println("alice started");
+
+            FileReader fr = new FileReader("Alice.txt");
+            BufferedReader br = new BufferedReader(fr);
+            while ((currentLine = br.readLine()) != null) {
+                alice = alice + currentLine;
+            }
+        return alice;
     }
     
 }

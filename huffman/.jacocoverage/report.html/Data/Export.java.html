@@ -26,14 +26,12 @@ import java.io.PrintWriter;
 <span class="fc" id="L26">        PrintWriter out = new PrintWriter(fos);</span>
 <span class="fc" id="L27">        out.println(code);</span>
 <span class="fc" id="L28">        out.flush();</span>
-<span class="fc" id="L29">        System.out.println(&quot;code exported&quot;);</span>
         
-<span class="fc" id="L31">        fos = new FileOutputStream(&quot;huffnode.ser&quot;);</span>
-<span class="fc" id="L32">        oos = new ObjectOutputStream(fos);</span>
-<span class="fc" id="L33">        oos.writeObject(rootNode);</span>
-<span class="fc" id="L34">        oos.flush();</span>
-<span class="fc" id="L35">        System.out.println(&quot;node exported&quot;);</span>
-<span class="fc" id="L36">    }</span>
+<span class="fc" id="L30">        fos = new FileOutputStream(&quot;huffnode.ser&quot;);</span>
+<span class="fc" id="L31">        oos = new ObjectOutputStream(fos);</span>
+<span class="fc" id="L32">        oos.writeObject(rootNode);</span>
+<span class="fc" id="L33">        oos.flush();</span>
+<span class="fc" id="L34">    }</span>
     
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

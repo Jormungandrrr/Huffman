@@ -106,12 +106,12 @@ public class Huffman {
         return codedList;
     }
     
-    public String encode(HashMap<Character, String> codeWithString, String message)
+    public String encode(HashMap<Character, String> charWithCode, String message)
     {
         StringBuilder sb = new StringBuilder();
         for (Character c : message.toCharArray())
         {
-            sb.append(codeWithString.get(c));
+            sb.append(charWithCode.get(c));
         }
         System.out.println(sb.toString());
         return sb.toString();

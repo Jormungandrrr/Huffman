@@ -5,23 +5,36 @@
  */
 package Data;
 
+import huffman.HuffNode;
 import java.io.BufferedReader;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 
 /**
  *
  * @author Jorrit
  */
-<span class="fc" id="L17">public class Import {</span>
-<span class="fc" id="L18">    String code = &quot;&quot;;</span>
+<span class="fc" id="L20">public class Import {</span>
+<span class="fc" id="L21">    String code = &quot;&quot;;</span>
+    FileInputStream fis;
+    ObjectInputStream ois;
     
     public String getCode() throws FileNotFoundException, IOException{
-<span class="fc" id="L21">        FileReader fr = new FileReader(&quot;code.txt&quot;);</span>
-<span class="fc" id="L22">        BufferedReader br = new BufferedReader(fr);</span>
-<span class="fc" id="L23">        code = br.readLine();</span>
-<span class="fc" id="L24">        return code;</span>
+<span class="fc" id="L26">        FileReader fr = new FileReader(&quot;code.txt&quot;);</span>
+<span class="fc" id="L27">        BufferedReader br = new BufferedReader(fr);</span>
+<span class="fc" id="L28">        code = br.readLine();</span>
+<span class="fc" id="L29">        return code;</span>
+    }
+    
+    public HuffNode getRootNode() throws FileNotFoundException, IOException, ClassNotFoundException{
+<span class="fc" id="L33">        fis = new FileInputStream(&quot;huffnode.ser&quot;);</span>
+<span class="fc" id="L34">        ois = new ObjectInputStream(fis);</span>
+<span class="fc" id="L35">        HuffNode result = (HuffNode) ois.readObject();</span>
+<span class="fc" id="L36">        ois.close();</span>
+<span class="fc" id="L37">        return result;</span>
     }
 }
-</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.5.201505241946</span></div></body></html>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.eclemma.org/jacoco">JaCoCo</a> 0.7.6.201602180812</span></div></body></html>

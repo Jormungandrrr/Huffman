@@ -12,6 +12,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.util.BitSet;
 
 /**
  *
@@ -22,11 +23,23 @@ public class Import {
     FileInputStream fis;
     ObjectInputStream ois;
     
-    public String getCode() throws FileNotFoundException, IOException{
-        FileReader fr = new FileReader("code.txt");
-        BufferedReader br = new BufferedReader(fr);
-        code = br.readLine();
-        return code;
+    public String getCode() throws FileNotFoundException, IOException, ClassNotFoundException{
+        fis = new FileInputStream("code.bin");
+        ois = new ObjectInputStream(fis);
+        BitSet bits = (BitSet) ois.readObject();
+        ois.close();
+        
+        StringBuilder sb = new StringBuilder();
+        
+        for (int i = 0; i < bits.length(); i++) {
+            if (bits.get(i)) {
+                sb.append("1");
+            } else {
+                sb.append("0");
+            }
+        }
+        
+        return  sb.toString();
     }
     
     public HuffNode getRootNode() throws FileNotFoundException, IOException, ClassNotFoundException{
